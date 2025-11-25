@@ -37,15 +37,7 @@ export default function RootLayout({
 				<body
 					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 				>
-					<header className="flex justify-between">
-						<UserButton showName />
-					</header>
-					<SignedOut>
-						<SignIn routing="hash" />
-					</SignedOut>
-					<SignedIn>
 						{children}
-					</SignedIn>
 				</body>
 			</html>
 		</ClerkProvider>
