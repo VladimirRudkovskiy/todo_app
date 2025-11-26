@@ -5,7 +5,7 @@ export async function userRequired() {
 	const { userId } = await auth();
 
 	if (!userId) {
-		redirect("/api/auth/login");
+		redirect("/sign-in");
 	}
 
 	return { userId };
