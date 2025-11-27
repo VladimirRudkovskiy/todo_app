@@ -170,7 +170,7 @@ const OnboardingForm = ({ name, email, image }: Props) => {
 										<FormItem>
 											<FormLabel>Bio</FormLabel>
 											<FormControl>
-												<Input
+												<Textarea
 													placeholder="Enter your bio"
 													className="resize-none"
 													{...field}
