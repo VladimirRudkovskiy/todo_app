@@ -17,3 +17,10 @@ export const workspaceSchema = z.object({
 	name:z.string().min(2, "Name is Required").max(100, "Maximum is 100 characters"),
 	description:z.string().optional(),
 })
+
+export const projectSchema = z.object({
+	name: z.string().min(3, {message: "Workspace name must ne at least 3 characters"}),
+	workspaceId: z.string(),
+	description: z.string().optional(),
+	memberAccess: z.array(z.string().optional())
+});
