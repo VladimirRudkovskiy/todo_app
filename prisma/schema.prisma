@@ -14,7 +14,7 @@ model User {
   about        String?
   industryType String
   role         String
-  workspace    WorkspaceMember[]
+  workspaces    WorkspaceMember[]
   image        String?
   task         Task[]
   activities   Activity[]
@@ -50,7 +50,7 @@ model WorkspaceMember {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaces   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
   accessLevel   AccessLevel     @default(MEMBER)
   projectAccess ProjectAccess[]

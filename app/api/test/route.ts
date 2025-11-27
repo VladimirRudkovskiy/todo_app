@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const result = await db.user.findMany(); // or any model you have
+    const result = await db.user.findMany();
 
     return NextResponse.json({
       ok: true,
