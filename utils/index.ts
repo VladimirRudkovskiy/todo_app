@@ -55,4 +55,12 @@ export const taskStatus = [
 		label: "COMPLETED",
 		color: "bg-green-500"
 	},
-]
+];
+
+export const taskStatusVariant = {
+	[TaskStatus.TODO]: "#6366f1",
+	[TaskStatus.IN_PROGRESS]: "#f59e0b",
+	[TaskStatus.COMPLETED]: "#10b981",
+	default: "#6366f1"
+
+}
