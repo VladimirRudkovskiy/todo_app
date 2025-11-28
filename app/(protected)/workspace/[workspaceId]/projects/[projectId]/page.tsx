@@ -1,8 +1,9 @@
 import { getProjectDetails } from "@/app/data/projects/get-project-details";
 import { ProjectDashboard } from "@/components/project/project-dashboard";
+import { ProjectKanban } from "@/components/project/project-kanban";
 import { ProjectTableContainer } from "@/components/project/project-table-container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CommentProps, ProjectProps } from "@/utils/types";
+import { CommentProps, ProjectProps, ProjectTaskProps } from "@/utils/types";
 import Link from "next/link";
 
 interface ProjectPageProps {
@@ -19,8 +20,8 @@ const ProjectPage = async (props: ProjectPageProps) => {
 	return (
 		<div className="flex flex-col gap-6 pb-3 px-3">
 			<Tabs
-			defaultValue={searchParams.view as string || "dashboard"}
-			className="w-full"
+				defaultValue={searchParams.view as string || "dashboard"}
+				className="w-full"
 			>
 				<TabsList className="mb-4">
 					<Link href="?view=dashboard">
@@ -43,21 +44,23 @@ const ProjectPage = async (props: ProjectPageProps) => {
 				</TabsList>
 
 				<TabsContent value="dashboard">
-					<ProjectDashboard 
-					project={project as unknown as ProjectProps}
-					tasks={tasks as any}
-					activities={activities!}
-					totalWorkspaceMembers={totalWorkspaceMembers!}
-					comments={comments as CommentProps[]}
+					<ProjectDashboard
+						project={project as unknown as ProjectProps}
+						tasks={tasks as any}
+						activities={activities!}
+						totalWorkspaceMembers={totalWorkspaceMembers!}
+						comments={comments as CommentProps[]}
 					/>
 				</TabsContent>
 
 				<TabsContent value="table">
-					<ProjectTableContainer projectId={projectId}/>
+					<ProjectTableContainer projectId={projectId} />
 				</TabsContent>
 
 				<TabsContent value="kanban">
-					<p>Kanban</p>
+					<ProjectKanban
+						initialTasks={tasks?.items as unknown as ProjectTaskProps[]}
+					/>
 				</TabsContent>
 			</Tabs>
 		</div>
