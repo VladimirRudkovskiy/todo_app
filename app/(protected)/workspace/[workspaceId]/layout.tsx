@@ -10,29 +10,34 @@ interface Props {
 }
 
 const WorkspaceIdLayout = async ({ children, params }: Props) => {
-	const {data} = await getUserWorkspaces();
+	const { data } = await getUserWorkspaces();
 	const { workspaceId } = await params;
 
 
-	if(data?.onboardingCompleted && !data?.workspaces) {
+	if (data?.onboardingCompleted && !data?.workspaces) {
 		redirect("/create-workspace")
-	}	else if(!data?.onboardingCompleted) {
+	} else if (!data?.onboardingCompleted) {
 		redirect("/onboarding")
 	}
 	return (
 		<SidebarProvider>
 			<div className="w-full flex bg-background h-screen">
-				<AppSidebarContainer data={data as any} workspaceId={workspaceId}/>
+				<Sidebar>
+					<AppSidebarContainer
+						data={data as any}
+						workspaceId={workspaceId}
+					/>
+				</Sidebar>
 
 				<main className="w-full overflow-y-auto min-h-screen">
 					<div className="flex items-start">
-						<SidebarTrigger className="pt-3"/>
+						<SidebarTrigger className="pt-3" />
 
-						<NavBar 
-						id={data?.workspaces?.[0]?.id || ""}
-						name={data?.workspaces?.[0]?.workspaces?.name || ""}
-						email={""}
-						image={""}
+						<NavBar
+							id={data?.workspaces?.[0]?.id || ""}
+							name={data?.workspaces?.[0]?.workspaces?.name || ""}
+							email={""}
+							image={""}
 						/>
 					</div>
 
