@@ -40,7 +40,7 @@ export const AppSidebar = (
 						Workspace
 					</SidebarGroupLabel>
 
-					<Button asChild className="size-5">
+					<Button asChild size="icon" className="size-5">
 						<Link href="/create-workspace">
 							<Plus />
 						</Link>
