@@ -1,4 +1,5 @@
 import { getUserWorkspaces } from "@/app/data/workspace/get-user-workspaces";
+import { NavBar } from "@/components/navbar";
 import { AppSidebarContainer } from "@/components/sidebar/app-sidebar-container";
 import { Sidebar, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { redirect } from "next/navigation";
@@ -27,12 +28,12 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
 					<div className="flex items-start">
 						<SidebarTrigger className="pt-3"/>
 
-						{/* <NavBar 
-						id={data?.id}
-						name={data?.name as string}
-						email={data.email as string}
-						image={data?.image as string}
-						/> */}
+						<NavBar 
+						id={data?.workspaces?.[0]?.id || ""}
+						name={data?.workspaces?.[0]?.workspaces?.name || ""}
+						email={""}
+						image={""}
+						/>
 					</div>
 
 					<div className="p-0 md:p-4 pt-2">

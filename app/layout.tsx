@@ -11,6 +11,7 @@ import {
 	UserButton,
 } from '@clerk/nextjs'
 import { Toaster } from "sonner";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -32,15 +33,24 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+
+	 const isDark = true; 
 	return (
 		<ClerkProvider>
-			<html lang="en">
+			<html lang="en" className={isDark ? 'dark' : ''} style={{ colorScheme: isDark ? 'dark' : 'light' }}>
 				<body
 					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 				>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
 						{children}
+					</ThemeProvider>
 
-						<Toaster />
+					<Toaster />
 				</body>
 			</html>
 		</ClerkProvider>
