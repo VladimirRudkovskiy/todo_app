@@ -24,39 +24,44 @@ export const AppSidebar = (
 ) => {
 	return (
 		<>
-		<Sidebar collapsible="icon">
-			<SidebarHeader className="bg-background">
-				<div className="flex items-center">
-					<Avatar>
-						<AvatarImage src={"/logo.png"}/>
-					</Avatar>
-					<SidebarGroupLabel>
-						<span className="text-xl font-bold">Prioritize</span>
-					</SidebarGroupLabel>
-				</div>
+			<Sidebar collapsible="icon">
+				<SidebarHeader className="bg-background">
+					<div className="flex items-center">
+						<Avatar>
+							<Link href="/workspace">
+								<AvatarImage
+									src="/logo.png"
+									className="cursor-pointer"
+								/>
+							</Link>
+						</Avatar>
+						<SidebarGroupLabel>
+							<span className="text-xl font-bold">Prioritize</span>
+						</SidebarGroupLabel>
+					</div>
 
-				<div className="flex justify-between mb-0">
-					<SidebarGroupLabel className="mb-2 text-sm font-semibold text-muted-foreground uppercase">
-						Workspace
-					</SidebarGroupLabel>
+					<div className="flex justify-between mb-0">
+						<SidebarGroupLabel className="mb-2 text-sm font-semibold text-muted-foreground uppercase">
+							Workspace
+						</SidebarGroupLabel>
 
-					<Button asChild size="icon" className="size-5">
-						<Link href="/create-workspace">
-							<Plus />
-						</Link>
-					</Button>
-				</div>
+						<Button asChild size="icon" className="size-5">
+							<Link href="/create-workspace">
+								<Plus />
+							</Link>
+						</Button>
+					</div>
 
-				<WorkspaceSelector workspaces={data.workspaces} />
-			</SidebarHeader>
+					<WorkspaceSelector workspaces={data.workspaces} />
+				</SidebarHeader>
 
-			<SidebarContent>
-				<NavMain />
-				<NavProjects 
-				projects={projects} workspaceMembers={workspaceMembers}
-				/>
-			</SidebarContent>
-		</Sidebar>
+				<SidebarContent>
+					<NavMain />
+					<NavProjects
+						projects={projects} workspaceMembers={workspaceMembers}
+					/>
+				</SidebarContent>
+			</Sidebar>
 		</>
 	)
 }
