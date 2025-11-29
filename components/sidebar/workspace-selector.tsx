@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import { useWorkspaceId } from "@/hooks/use-workspace-Id";
 import { WorkspaceProps } from "@/utils/types";
@@ -20,21 +20,19 @@ export const WorkspaceSelector = ({
 	const [selectedWorkspace, setSelectedWorkspace] = useState<WorkspaceProps | undefined>(undefined);
 
 	const onSelect = (id: string) => {
-		setSelectedWorkspace(
-			workspaces.find((workspace) => workspace.workspaceId === id)
-		)
-		router.push(`/workspace/${id}`)
+		const workspace = workspaces.find((workspace) => workspace.workspaceId === id);
+		setSelectedWorkspace(workspace);
+		router.push(`/workspace/${id}`);
 	};
 
 	useEffect(() => {
 		if (workspaceId && workspaces) {
-			setSelectedWorkspace(
-				workspaces.find((workspace) => workspace.workspaceId === workspaceId)
-			);
+			const workspace = workspaces.find((workspace) => workspace.workspaceId === workspaceId);
+			setSelectedWorkspace(workspace);
 		}
 	}, [workspaceId, workspaces]);
 
-	return <>
+	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
 				<DropdownMenu>
@@ -43,34 +41,29 @@ export const WorkspaceSelector = ({
 							size="lg"
 							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 						>
-							<WorkspaceAvatar name={selectedWorkspace?.workspace?.name ?? "W"} />
-
+							<WorkspaceAvatar name={selectedWorkspace?.workspaces?.name ?? "W"} />
 							<div className="font-semibold text-muted-foreground">
-								{selectedWorkspace?.workspace?.name}
+								{selectedWorkspace?.workspaces?.name ?? "Select workspace"}
 							</div>
-
 							<ChevronsUpDown className="ml-auto" />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 
 					<DropdownMenuContent align="start" className="w-[--radix-dropdown-menu-trigger-width]">
-						{
-							workspaces?.map(workspace => (
-								<DropdownMenuItem key={workspace.id} onSelect={() => onSelect(workspace.workspaceId)}>
-									<div className="flex flex-row items-center gap-2">
-										<WorkspaceAvatar
-											name={selectedWorkspace?.workspace?.name ?? "W"} />
-										<p>{selectedWorkspace?.workspace?.name}</p>
-									</div>
-									{workspace.workspaceId === workspaceId && (
-										<Check className="ml-auto" />
-									)}
-								</DropdownMenuItem>
-							))
-						}
+						{workspaces?.map(workspace => (
+							<DropdownMenuItem key={workspace.id} onSelect={() => onSelect(workspace.workspaceId)}>
+								<div className="flex flex-row items-center gap-2">
+									<WorkspaceAvatar name={workspace.workspaces?.name ?? "W"} />
+									<p>{workspace.workspaces?.name ?? "Unnamed workspace"}</p>
+								</div>
+								{workspace.workspaceId === workspaceId && (
+									<Check className="ml-auto" />
+								)}
+							</DropdownMenuItem>
+						))}
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</SidebarMenuItem>
 		</SidebarMenu>
-	</>
+	)
 }
