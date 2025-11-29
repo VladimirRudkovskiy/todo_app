@@ -169,10 +169,6 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 									View Task
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem asChild>
-								Delete Task
-								{/* <DeleteTask taskId={row.original.id} /> */}
-							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>

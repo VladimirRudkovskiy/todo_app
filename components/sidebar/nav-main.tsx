@@ -23,12 +23,12 @@ export const NavMain = () => {
 			icon: CheckSquare,
 			path: "my-tasks"
 		},
-		{
-			label: "Members",
-			href: `/workspace/${workspaceId}/members`,
-			icon: Users,
-			path: "members"
-		},
+		// {
+		// 	label: "Members",
+		// 	href: `/workspace/${workspaceId}/members`,
+		// 	icon: Users,
+		// 	path: "members"
+		// },
 		{
 			label: "Settings",
 			href: `/workspace/${workspaceId}/settings`,
