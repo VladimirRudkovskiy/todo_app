@@ -19,6 +19,10 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
 	} else if (!data?.onboardingCompleted) {
 		redirect("/onboarding")
 	}
+
+const currentWorkspace = data?.workspaces?.find(w => w.workspaceId === workspaceId);
+console.log("user workspaces data:", data);
+console.log("currentWorkspace:", currentWorkspace);
 	return (
 		<SidebarProvider>
 			<div className="w-full flex bg-background h-screen">
@@ -34,10 +38,10 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
 						<SidebarTrigger className="pt-3" />
 
 						<NavBar
-							id={data?.workspaces?.[0]?.id || ""}
-							name={data?.workspaces?.[0]?.workspaces?.name || ""}
-							email={""}
-							image={""}
+							id={currentWorkspace?.id || ""}
+  name={currentWorkspace?.workspaces?.name || ""}
+  email={""}
+  image={""}
 						/>
 					</div>
 

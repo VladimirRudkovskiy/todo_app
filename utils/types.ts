@@ -40,7 +40,7 @@ export interface WorkspaceProps {
 	userId: string,
 	workspaceId: string,
 	accessLevel: $Enums.AccessLevel;
-	workspace: {
+	workspaces: {
 		name: string
 	};
 }
