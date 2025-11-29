@@ -9,10 +9,14 @@ import { Badge } from "../ui/badge";
 import { format } from "date-fns";
 import { ProfileAvatar } from "../profile-avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DeleteTaskButton } from "../task/delete-task-button";
+import { deleteTask } from "@/app/actions/delete-task";
+import { toast } from "sonner";
 
 export type TaskTableItem = {
 	id: string;
 	name: string;
+	title: string;
 	status: string;
 	dueDate: string;
 	assignedTo: {
@@ -319,26 +323,6 @@ export const myTasksColumns: ColumnDef<TaskTableItem>[] = [
 		},
 	},
 
-	// {
-	// 	accessorKey: "assignedTo",
-	// 	header: "Assigned To",
-	// 	cell: ({ row }) => {
-	// 		const assignedTo = row.getValue("assignedTo") as {
-	// 			name: string;
-	// 			image?: string;
-	// 		};
-	// 		return (
-	// 			<div className="flex items-center gap-2">
-	// 				<ProfileAvatar
-	// 					name={assignedTo?.name || "Unassigned"}
-	// 					url={assignedTo?.image}
-	// 				/>
-	// 				<span>{assignedTo?.name || "Unassigned"}</span>
-	// 			</div>
-	// 		);
-	// 	},
-	// },
-
 	{
 		accessorKey: "attachments",
 		header: "Attachments",
@@ -361,26 +345,45 @@ export const myTasksColumns: ColumnDef<TaskTableItem>[] = [
 				<div>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant={"ghost"}>
+							<Button variant="ghost">
 								<EllipsisVertical className="2-4 h-4" />
 							</Button>
 						</DropdownMenuTrigger>
+
 						<DropdownMenuContent>
-							<DropdownMenuItem>
+							{/* View Task */}
+							<DropdownMenuItem asChild>
 								<Link
 									href={`/workspace/${row.original.project.workspaceId}/projects/${row.original.project.id}/${row.original.id}`}
 								>
 									View Task
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem asChild>
+
+							{/* Delete Task */}
+							<DropdownMenuItem
+								className="text-destructive" // make text red
+								onSelect={async () => {
+									if (!confirm("Are you sure you want to delete this task?")) return;
+									try {
+										await deleteTask(row.original.id);
+										// toast({ title: "Task deleted" });
+										window.location.reload(); // or trigger refetch
+									} catch (err) {
+										// toast({
+										// 	title: "Failed to delete task",
+										// 	description: (err as Error).message,
+										// 	variant: "destructive",
+										// });
+									}
+								}}
+							>
 								Delete Task
-								{/* <DeleteTask taskId={row.original.id} /> */}
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
-			)
+			);
 		},
 	},
 ];
