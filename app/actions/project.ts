@@ -4,7 +4,6 @@ import { ProjectDataType } from "@/components/project/create-project-form";
 import { userRequired } from "../data/user/is-user-authenticated";
 import { db } from "@/lib/db";
 import { projectSchema } from "@/lib/schema";
-import { success } from "zod";
 
 export const createNewProject = async (data: ProjectDataType) => {
 	const { userId } = await userRequired();
@@ -20,11 +19,12 @@ export const createNewProject = async (data: ProjectDataType) => {
 		},
 	});
 
+	// Validate the incoming project data against the schema to ensure correct shape and types.
 	const validatedData = projectSchema.parse(data)
 
 	const workspaceMemberMembers = await db.workspaceMember.findMany({
 		where: {
-				workspaceId: data.workspaceId,
+			workspaceId: data.workspaceId,
 		},
 	});
 
@@ -34,9 +34,11 @@ export const createNewProject = async (data: ProjectDataType) => {
 		throw new Error("Unauthorized")
 	}
 
+	// - If no members are specified, default to the current user.
+	// - If members are specified but do not include the creator, add them.
 	if (validatedData.memberAccess.length === 0) {
 		validatedData.memberAccess = [userId];
-	} else if(!validatedData.memberAccess.includes(userId)){
+	} else if (!validatedData.memberAccess.includes(userId)) {
 		validatedData.memberAccess.push(userId);
 	}
 
@@ -46,19 +48,20 @@ export const createNewProject = async (data: ProjectDataType) => {
 			description: validatedData.description || "",
 			workspaceId: validatedData.workspaceId,
 			projectAccess: {
-				create: validatedData.memberAccess?.map((memberId) => ({workspaceMemberId: workspaceMemberMembers.find((member) => member?.userId === memberId)?.id!,
+				create: validatedData.memberAccess?.map((memberId) => ({
+					workspaceMemberId: workspaceMemberMembers.find((member) => member?.userId === memberId)?.id!,
 					hasAccess: true,
 				})),
 			},
 			activities: {
 				create: {
 					type: "PROJECT_CREATED",
-					description:`Created Project ${validatedData.name}`,
+					description: `Created Project ${validatedData.name}`,
 					userId: userId
 				}
 			}
 		},
 	});
 
-	return {success: true}
+	return { success: true }
 }

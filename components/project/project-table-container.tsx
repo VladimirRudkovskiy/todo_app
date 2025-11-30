@@ -7,7 +7,7 @@ export const ProjectTableContainer = async ({
 	projectId: string
 }) => {
 
-	const {tasks} = await getProjectById(projectId);
+	const { tasks } = await getProjectById(projectId);
 	return (
 		<div className="p-0">
 			<ProjectTable tasks={tasks as any}>

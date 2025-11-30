@@ -10,7 +10,7 @@ import z from "zod"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Button } from "../ui/button"
 import { Plus } from "lucide-react"
-import { Card, CardContent } from "../ui/card"
+import { Card } from "../ui/card"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
@@ -28,8 +28,12 @@ export type ProjectDataType = z.infer<typeof projectSchema>
 
 export const CreateProjectForm = ({ workspaceMembers }: Props) => {
 	const workspaceId = useWorkspaceId();
+
+	// Local state to track pending form submission
 	const [pending, setPending] = useState(false);
 	const router = useRouter();
+
+	// Initialize react-hook-form with Zod validation
 	const form = useForm<ProjectDataType>({
 		resolver: zodResolver(projectSchema),
 		defaultValues: {
@@ -40,6 +44,13 @@ export const CreateProjectForm = ({ workspaceMembers }: Props) => {
 		}
 	});
 
+
+	/**
+	 * Handle form submission
+	 * - Calls server action `createNewProject`
+	 * - Shows success/error toast
+	 * - Refreshes page after creation
+	 */
 	const handleSubmit = async (data: ProjectDataType) => {
 		try {
 			setPending(true)
@@ -50,7 +61,7 @@ export const CreateProjectForm = ({ workspaceMembers }: Props) => {
 
 			router.refresh();
 		} catch (error) {
-			console.log(error);
+
 
 			toast.error("Something went wrong");
 		} finally {

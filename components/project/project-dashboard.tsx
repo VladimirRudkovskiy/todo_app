@@ -10,13 +10,11 @@ interface ProjectDashboardProps {
 	tasks: {
 		completed: number;
 		inProgress: number;
-		overdue: number;
 		total: number;
 		items: Task[];
 	};
 	activities?: Activity[];
 	totalWorkspaceMembers: number;
-	comments: CommentProps[];
 
 }
 

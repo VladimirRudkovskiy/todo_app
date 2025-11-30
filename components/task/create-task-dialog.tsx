@@ -32,13 +32,16 @@ interface Props {
 	project: ProjectProps;
 }
 
+// Type inferred from the Zod validation schema
 export type TaskFormValues = z.infer<typeof taskFormSchema>;
 
+// Component for creating a new task via a dialog
 export const CreateTaskDialog = ({ project }: Props) => {
 	const router = useRouter();
 	const workspaceId = useWorkspaceId();
 	const [pending, setPending] = useState(false);
 
+	// React Hook Form setup with Zod validation
 	const form = useForm<TaskFormValues>({
 		resolver: zodResolver(taskFormSchema),
 		defaultValues: {
@@ -53,10 +56,12 @@ export const CreateTaskDialog = ({ project }: Props) => {
 		},
 	});
 
+	// Form submit handler
 	const handleOnSubmit = async (data: TaskFormValues) => {
 		try {
 			setPending(true);
 
+			// Call API/action to create a new task
 			await createNewTask(data, project.id, workspaceId as string)
 
 			toast.success("New task created successfully")
@@ -64,7 +69,7 @@ export const CreateTaskDialog = ({ project }: Props) => {
 			form.reset();
 
 		} catch (error) {
-			console.log(error)
+
 			toast.error("Failed to create task")
 		} finally {
 			setPending(false)

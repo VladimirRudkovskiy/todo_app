@@ -16,13 +16,14 @@ import { Button } from "../ui/button";
 import { createNewWorkspace } from "@/app/actions/workspace";
 import { useRouter } from "next/navigation";
 
-
+// Type inferred from Zod schema for workspace creation
 export type CreateWorkspaceDataType = z.infer<typeof workspaceSchema>;
 
 export const CreateWorkspaceForm = () => {
 	const [pending, setPending] = useState(false);
 	const router = useRouter();
 
+	// Initialize react-hook-form with Zod validation
 	const form = useForm<CreateWorkspaceDataType>({
 		resolver: zodResolver(workspaceSchema),
 		defaultValues: {
@@ -34,13 +35,13 @@ export const CreateWorkspaceForm = () => {
 	const onSubmit = async (data: CreateWorkspaceDataType) => {
 		try {
 			setPending(true);
-			const res = await createNewWorkspace(data);
+			const res = await createNewWorkspace(data); // Call API/action to create workspace
 
 			toast.success("Workspace created successfully");
 
 			router.push(`/workspace/${res.id}`)
 		} catch (error) {
-			console.log(error);
+
 			toast.error("Something went wrong")
 		}
 	}

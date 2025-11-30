@@ -6,7 +6,6 @@ import { ProfileAvatar } from "../profile-avatar";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { format } from "date-fns";
-import { file } from "zod";
 import Image from "next/image";
 import { EditTaskDialog } from "./edit-task-dialog";
 
@@ -34,8 +33,8 @@ export const TaskDetails = ({ task }: TaskProps) => {
 
 				<div className="w-full md:w-auto flex flex-col justify-end items-end gap-3">
 					<EditTaskDialog key={new Date().getTime()}
-					task={task}
-					project={task.project}
+						task={task}
+						project={task.project}
 					/>
 
 					<div className="flex items-center gap-3">

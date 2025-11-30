@@ -27,9 +27,10 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Button } from "./ui/button"
 import { ChevronDown } from "lucide-react"
 
+// Generic props to support any data type TData and value type TValue
 interface DataTableProps<TData, TValue> {
-	columns: ColumnDef<TData, TValue>[]
-	data: TData[]
+	columns: ColumnDef<TData, TValue>[] // Column definitions for the tabl
+	data: TData[] // Array of data to display
 }
 
 export function DataTable<TData, TValue>({
@@ -45,18 +46,18 @@ export function DataTable<TData, TValue>({
 	const [rowSelection, setRowSelection] = React.useState({});
 
 
+	// Initialize the react-table instance with all the required plugins and state
 	const table = useReactTable({
 		data,
 		columns,
-		getCoreRowModel: getCoreRowModel(),
-		onSortingChange: setSorting,
-		onColumnFiltersChange: setColumnFilters,
-		getPaginationRowModel: getPaginationRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-
-		getFilteredRowModel: getFilteredRowModel(),
-		onColumnVisibilityChange: setColumnVisibility,
-		onRowSelectionChange: setRowSelection,
+		getCoreRowModel: getCoreRowModel(), // Core rows without any plugins
+		onSortingChange: setSorting, // Update sorting state
+		onColumnFiltersChange: setColumnFilters, // Update filters state
+		getPaginationRowModel: getPaginationRowModel(),// Handles pagination
+		getSortedRowModel: getSortedRowModel(), // Handles sorting
+		getFilteredRowModel: getFilteredRowModel(), // Handles filtering
+		onColumnVisibilityChange: setColumnVisibility, // Toggle column visibility
+		onRowSelectionChange: setRowSelection, // Track selected rows
 		state: {
 			sorting,
 			columnFilters,

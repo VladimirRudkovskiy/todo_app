@@ -22,16 +22,19 @@ interface Props {
 	image?: string;
 }
 
+// Type for form values inferred from Zod schema
 export type UserDataType = z.infer<typeof userSchema>
 
 const OnboardingForm = ({ name, email, image }: Props) => {
 	const [pending, setPending] = useState(false);
 
+
+	// Initialize react-hook-form with zod resolver and default values
 	const form = useForm<UserDataType>({
 		resolver: zodResolver(userSchema),
 		defaultValues: {
 			about: "",
-			name: name || "",
+			name: name || "", // prefill with prop if available
 			email: email,
 			image: image || "",
 			role: "",
@@ -44,7 +47,7 @@ const OnboardingForm = ({ name, email, image }: Props) => {
 			setPending(true);
 			await createUser(data);
 		} catch (error) {
-			console.log(error);
+
 			toast.error("Something went wrong")
 		}
 	}
@@ -162,7 +165,6 @@ const OnboardingForm = ({ name, email, image }: Props) => {
 									/>
 								</div>
 
-								{/* Form Field for a descriptional, might delete later */}
 								<FormField
 									control={form.control}
 									name="about"

@@ -5,8 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { $Enums, Workspace } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Form, FormProvider, useForm } from "react-hook-form";
-import z from "zod";
+import { FormProvider, useForm } from "react-hook-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -34,6 +33,7 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
 		useConfirmation();
 	const [inviteEmail, setInviteEmail] = React.useState("");
 
+	// Initialize react-hook-form with Zod schema and default values
 	const form = useForm<CreateWorkspaceDataType>({
 		resolver: zodResolver(workspaceSchema),
 		defaultValues: {
@@ -42,8 +42,10 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
 		},
 	});
 
+	// Construct workspace invite link
 	const inviteLink = `${process.env.NEXT_PUBLIC_BASE_URL}/workspace.invite/${data.id}/join/${data.inviteCode}`;
 
+	// Handle form submission to update workspace info
 	const handleOnSubmit = async (values: CreateWorkspaceDataType) => {
 		try {
 			setIsPending(true);
@@ -67,6 +69,7 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
 
 	const handleInvitation = () => {
 		setIsLoading(true);
+		// Logic to send invitation comes later
 	}
 
 	const copyInviteLink = () => {
@@ -85,8 +88,8 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
 			if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
 				toast.error(
 					error instanceof Error
-					? error.message
-					: "Something went wrong"
+						? error.message
+						: "Something went wrong"
 				);
 			}
 		} finally {
@@ -94,23 +97,23 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
 		}
 	}
 
-	const handleDelete =() => {
+	const handleDelete = () => {
 		confirm({
 			title: "Delete Workspace",
 			message: "Are you sure you want to delete workspace? This action can not be undone",
-			onConfirm: async() => {
+			onConfirm: async () => {
 				try {
 					setIsPending(true)
 
 					await deleteWorkspace(data.id);
 					toast.success("Workspace deleted successfully")
 				} catch (error) {
-					console.log(error)
+
 					if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
 						toast.error(
 							error instanceof Error
-							? error.message
-							: "Something went wrong"
+								? error.message
+								: "Something went wrong"
 						)
 					}
 				} finally {
@@ -250,19 +253,19 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
 				<CardContent className="space-y-6">
 
 
-						<Button
-							type="button"
-							variant={"destructive"}
-							disabled={isPending}
-							className=""
-							onClick={handleDelete}
-						>
-							Delete Workspace
-						</Button>
+					<Button
+						type="button"
+						variant={"destructive"}
+						disabled={isPending}
+						className=""
+						onClick={handleDelete}
+					>
+						Delete Workspace
+					</Button>
 				</CardContent>
 			</Card>
 
-			<ConfirmationDialog 
+			<ConfirmationDialog
 				isOpen={isOpen}
 				onCancel={handleCancel}
 				onConfirm={handleConfirm}

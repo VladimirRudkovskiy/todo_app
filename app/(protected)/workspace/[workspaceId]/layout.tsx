@@ -14,15 +14,17 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
 	const { workspaceId } = await params;
 
 
+	// If the user completed onboarding but has no workspaces,
 	if (data?.onboardingCompleted && !data?.workspaces) {
 		redirect("/create-workspace")
+		// redirect them to create their first workspace.
 	} else if (!data?.onboardingCompleted) {
 		redirect("/onboarding")
 	}
 
-const currentWorkspace = data?.workspaces?.find(w => w.workspaceId === workspaceId);
-console.log("user workspaces data:", data);
-console.log("currentWorkspace:", currentWorkspace);
+	// Determine which workspace is currently active based on the URL.
+	const currentWorkspace = data?.workspaces?.find(w => w.workspaceId === workspaceId);
+
 	return (
 		<SidebarProvider>
 			<div className="w-full flex bg-background h-screen">
@@ -39,9 +41,9 @@ console.log("currentWorkspace:", currentWorkspace);
 
 						<NavBar
 							id={currentWorkspace?.id || ""}
-  name={currentWorkspace?.workspaces?.name || ""}
-  email={""}
-  image={""}
+							name={currentWorkspace?.workspaces?.name || ""}
+							email={""}
+							image={""}
 						/>
 					</div>
 

@@ -41,11 +41,11 @@ export const getTaskById = async (
 				attachments: { select: { id: true, name: true, url: true } },
 				project: {
 					include: {
-						projectAccess:{
+						projectAccess: {
 							include: {
-								workspaceMember:{
-									include:{
-										user:{
+								workspaceMember: {
+									include: {
+										user: {
 											select: { id: true, name: true, image: true },
 										},
 									},
@@ -58,6 +58,7 @@ export const getTaskById = async (
 		}),
 	]);
 
+	// Structure project data to include members for easier frontend use
 	const project = {
 		...task?.project,
 		members: task?.project.projectAccess.map((access) => access.workspaceMember)

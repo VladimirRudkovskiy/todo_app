@@ -7,7 +7,6 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	useSidebar
 } from "../ui/sidebar";
 import { usePathname } from "next/navigation";
 import { CreateProjectForm } from "../project/create-project-form";
@@ -42,7 +41,7 @@ export const NavProjects = ({
 
 					return (
 						<SidebarMenuItem key={proj.id} className="flex items-center justify-between">
-							
+
 							{/* Project Link */}
 							<SidebarMenuButton asChild>
 								<a
@@ -57,7 +56,7 @@ export const NavProjects = ({
 								</a>
 							</SidebarMenuButton>
 
-							{/* Actions Menu (3 dots) */}
+							{/* Actions Menu */}
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button variant="ghost" className="h-6 w-6 p-0 ml-2">
@@ -66,18 +65,17 @@ export const NavProjects = ({
 								</DropdownMenuTrigger>
 
 								<DropdownMenuContent side="right">
-									
+
 									{/* Delete Project */}
 									<DropdownMenuItem
 										className="text-destructive"
 										onSelect={async () => {
 											if (!confirm(`Delete project "${proj.name}"?`)) return;
-											
+
 											try {
 												await deleteProject(proj.id);
 												window.location.reload();
 											} catch (err) {
-												console.error(err);
 												alert("Failed to delete project.");
 											}
 										}}

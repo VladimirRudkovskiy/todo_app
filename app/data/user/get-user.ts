@@ -6,12 +6,12 @@ export const getUserById = async () => {
 		const { userId } = await userRequired();
 
 		const data = await db.user.findUnique({
-			where:{id: userId}
+			where: { id: userId }
 		});
 
 		return data;
 	} catch (error) {
-		console.log(error)
+
 		return {
 			success: false,
 			error: true,

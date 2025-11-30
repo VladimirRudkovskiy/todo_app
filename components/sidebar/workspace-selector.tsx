@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { WorkspaceAvatar } from "../workspace/workspace-avatar";
 import { Check, ChevronsUpDown } from "lucide-react";
 
+// Component for selecting a workspace from a dropdown in the sidebar
 export const WorkspaceSelector = ({
 	workspaces
 }: {
@@ -19,12 +20,14 @@ export const WorkspaceSelector = ({
 	const workspaceId = useWorkspaceId();
 	const [selectedWorkspace, setSelectedWorkspace] = useState<WorkspaceProps | undefined>(undefined);
 
+	// Function called when a workspace is selected from the dropdown
 	const onSelect = (id: string) => {
-		const workspace = workspaces.find((workspace) => workspace.workspaceId === id);
-		setSelectedWorkspace(workspace);
-		router.push(`/workspace/${id}`);
+		const workspace = workspaces.find((workspace) => workspace.workspaceId === id); // Find workspace object
+		setSelectedWorkspace(workspace); // Update local state
+		router.push(`/workspace/${id}`); // Navigate to the selected workspace
 	};
 
+	// Set the currently selected workspace on component mount or when workspaceId changes
 	useEffect(() => {
 		if (workspaceId && workspaces) {
 			const workspace = workspaces.find((workspace) => workspace.workspaceId === workspaceId);

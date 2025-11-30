@@ -20,7 +20,7 @@ export const getProjectById = async (projectId: string) => {
 				select: {
 					id: true,
 					name: true,
-					workspaceId:true,
+					workspaceId: true,
 				},
 			},
 			attachments: true,

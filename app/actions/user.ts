@@ -9,8 +9,10 @@ import { redirect } from "next/navigation";
 export const createUser = async (data: UserDataType) => {
 	const { userId } = await userRequired();
 
+	// Validate incoming user data against the schema to ensure correct format and types.
 	const validatedData = userSchema.parse(data);
 
+	// Create a new user record in the database with validated data.
 	const userData = await db.user.create({
 		data: {
 			id: userId,
@@ -21,14 +23,6 @@ export const createUser = async (data: UserDataType) => {
 			about: validatedData.about,
 			onboardingCompleted: true,
 			image: validatedData.image || "",
-			// subscription:{
-			// 	create:{
-			// 		plan: "FREE",
-			// 		status: "ACTIVE",
-			// 		currentPeriodEnd: new Date(),
-			// 		cancelAtPeriodEnd: false
-			// 	},
-			// },
 		},
 
 		select: {
