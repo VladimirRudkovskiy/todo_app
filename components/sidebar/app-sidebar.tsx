@@ -12,15 +12,15 @@ import { NavMain } from "./nav-main";
 import { NavProjects } from "./nav-project-list";
 
 export const AppSidebar = (
-	{ data,
-		projects,
+	{ data, // user & workspace related data
+		projects,  // list of projects in the current workspace
 		workspaceMembers,
-		user }: {
-			data: AppSidebarDataProps;
-			projects: ProjectProps[];
-			workspaceMembers: WorkspaceMembersProps[]
-			user: User;
-		}
+	}: {
+		data: AppSidebarDataProps;
+		projects: ProjectProps[];
+		workspaceMembers: WorkspaceMembersProps[]
+		user: User; // current logged-in user
+	}
 ) => {
 	return (
 		<>

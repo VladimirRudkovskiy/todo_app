@@ -12,7 +12,7 @@ export interface AppSidebarDataProps extends User {
 	workspaceId: string,
 	accessLevel: $Enums.AccessLevel,
 	onboardingCompleted: boolean;
-  workspaces: WorkspaceProps[];
+	workspaces: WorkspaceProps[];
 	workspace: {
 		name: string,
 	};
@@ -26,16 +26,17 @@ export const AppSidebarContainer = async ({
 	workspaceId: string
 }) => {
 
-	const {projects, workspaceMembers} = await getWorkspaceProjectsByWorkspaceId(workspaceId);
+	// Fetch projects and workspace members for the given workspace
+	const { projects, workspaceMembers } = await getWorkspaceProjectsByWorkspaceId(workspaceId);
 	const user = await getUserById();
 
 	return (
-		<AppSidebar 
-		data={data}
-		projects={projects as unknown as ProjectProps[]}
-		workspaceMembers={workspaceMembers as unknown as WorkspaceMembersProps[]}
-		user={user as User}
-		
+		<AppSidebar
+			data={data}
+			projects={projects as unknown as ProjectProps[]}
+			workspaceMembers={workspaceMembers as unknown as WorkspaceMembersProps[]}
+			user={user as User}
+
 		/>
 	)
 }

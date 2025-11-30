@@ -1,10 +1,11 @@
 import { formatDistanceToNow } from "date-fns";
 import { ProfileAvatar } from "../profile-avatar";
 
+// Define the shape of a single activity
 export interface Activity {
-	id: string;
-	type: string;
-	description: string;
+	id: string; // Unique ID for each activity
+	type: string; // Type of activity (TASK_CREATED)
+	description: string; // Timestamp when activity occurred
 	createdAt: Date;
 	user: {
 		name: string;
@@ -12,6 +13,7 @@ export interface Activity {
 	};
 }
 
+// Props for the activity feed component
 interface ActivityFeedProps {
 	activities: Activity[];
 }

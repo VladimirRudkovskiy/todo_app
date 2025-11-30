@@ -18,7 +18,7 @@ import { Input } from "../ui/input";
 import {
 	Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from "../ui/select";
-import { Task, TaskPriority, TaskStatus, User } from "@prisma/client";
+import { Task, TaskPriority, User } from "@prisma/client";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarIcon, PencilIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,7 +26,7 @@ import { Calendar } from "../ui/calendar";
 import { taskStatus } from "@/utils";
 import { Textarea } from "../ui/textarea";
 import { toast } from "sonner";
-import { createNewTask, updateTask } from "@/app/actions/task";
+import { updateTask } from "@/app/actions/task";
 
 interface Props {
 	project: ProjectProps;
@@ -35,14 +35,16 @@ interface Props {
 	}
 }
 
+// Form values type derived from Zod schema
 export type TaskFormValues = z.infer<typeof taskFormSchema>;
 
+// EditTaskDialog component allows editing a task's details
 export const EditTaskDialog = ({ task, project }: Props) => {
 	const router = useRouter();
-	const [open, setOpen] = useState(false);
 	const workspaceId = useWorkspaceId();
 	const [pending, setPending] = useState(false);
 
+	// Initialize form with react-hook-form and Zod validation
 	const form = useForm<TaskFormValues>({
 		resolver: zodResolver(taskFormSchema),
 		defaultValues: {
@@ -68,7 +70,7 @@ export const EditTaskDialog = ({ task, project }: Props) => {
 			form.reset();
 
 		} catch (error) {
-			console.log(error)
+
 			toast.error("Failed to update task")
 		} finally {
 			setPending(false)

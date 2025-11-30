@@ -9,9 +9,7 @@ import { Badge } from "../ui/badge";
 import { format } from "date-fns";
 import { ProfileAvatar } from "../profile-avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { DeleteTaskButton } from "../task/delete-task-button";
 import { deleteTask } from "@/app/actions/delete-task";
-import { toast } from "sonner";
 
 export type TaskTableItem = {
 	id: string;
@@ -28,6 +26,7 @@ export type TaskTableItem = {
 
 export const columns: ColumnDef<TaskTableItem>[] = [
 	{
+		// Checkbox column for row selection
 		id: "select",
 		header: ({ table }) => (
 			<Checkbox
@@ -48,6 +47,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Task title column with link to task details
 		accessorKey: 'title', header: ({ column }) => (
 			<Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() == "asc")}>
 				Task Title <ArrowUpDown />
@@ -68,6 +68,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Status column with badges
 		accessorKey: "status",
 		header: "Status",
 		cell: ({ row }) => {
@@ -81,6 +82,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Priority column
 		accessorKey: "priority",
 		header: "Priority",
 		cell: ({ row }) => {
@@ -94,6 +96,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Created At column
 		accessorKey: "createdAt",
 		header: "Created At",
 		cell: ({ row }) => {
@@ -105,6 +108,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Due Date column
 		accessorKey: "dueDate",
 		header: "Due Date",
 		cell: ({ row }) => {
@@ -116,6 +120,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Assigned To column with avatar and name
 		accessorKey: "assignedTo",
 		header: "Assigned To",
 		cell: ({ row }) => {
@@ -136,6 +141,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Attachments column with icon and count
 		accessorKey: "attachments",
 		header: "Attachments",
 		cell: ({ row }) => {
@@ -150,6 +156,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 	},
 
 	{
+		// Actions column with dropdown menu
 		accessorKey: "actions",
 		header: "Actions",
 		cell: ({ row }) => {
@@ -168,6 +175,20 @@ export const columns: ColumnDef<TaskTableItem>[] = [
 								>
 									View Task
 								</Link>
+							</DropdownMenuItem>
+							{/* Delete Task */}
+							<DropdownMenuItem
+								className="text-destructive"
+								onSelect={async () => {
+									if (!confirm("Are you sure you want to delete this task?")) return;
+									try {
+										await deleteTask(row.original.id);
+										window.location.reload(); // or trigger refetch
+									} catch (err) {
+									}
+								}}
+							>
+								Delete Task
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
@@ -358,19 +379,13 @@ export const myTasksColumns: ColumnDef<TaskTableItem>[] = [
 
 							{/* Delete Task */}
 							<DropdownMenuItem
-								className="text-destructive" // make text red
+								className="text-destructive"
 								onSelect={async () => {
 									if (!confirm("Are you sure you want to delete this task?")) return;
 									try {
 										await deleteTask(row.original.id);
-										// toast({ title: "Task deleted" });
 										window.location.reload(); // or trigger refetch
 									} catch (err) {
-										// toast({
-										// 	title: "Failed to delete task",
-										// 	description: (err as Error).message,
-										// 	variant: "destructive",
-										// });
 									}
 								}}
 							>

@@ -33,9 +33,9 @@ export const ProjectHeader = async ({ project }: { project: ProjectProps }) => {
 					<div className="flex flex-wrap space-x-2">
 						{
 							project?.members && Array.isArray(project.members) && project.members.map((member: any) => (
-								<Avatar 
-								key={member.id}
-								className="size-9 2xl:size-10 border-2 border-background shadow"
+								<Avatar
+									key={member.id}
+									className="size-9 2xl:size-10 border-2 border-background shadow"
 								>
 									<AvatarImage src={member?.user.image || undefined} />
 									<AvatarFallback className="text-sm 2xl:text-base">

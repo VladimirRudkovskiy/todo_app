@@ -10,5 +10,5 @@ export async function userRequired() {
 
 	return { userId };
 
-	
+
 }

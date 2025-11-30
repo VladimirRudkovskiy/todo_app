@@ -26,6 +26,7 @@ export const getUserWorkspaces = async () => {
 			}
 		});
 
+		// Return structured data for frontend consumption
 		return {
 			data: {
 				onboardingCompleted: user?.onboardingCompleted ?? false,

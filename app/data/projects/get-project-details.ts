@@ -75,6 +75,7 @@ export const getProjectDetails = async (
 			}),
 		]);
 
+		// Organize task statistics for frontend use
 		const tasks = {
 			total: project?.tasks.length,
 
@@ -82,11 +83,11 @@ export const getProjectDetails = async (
 
 			inProgress: project?.tasks.filter((task) => task.status === TaskStatus.IN_PROGRESS).length,
 
-			overdue: project?.tasks.filter((task) => task.status! == TaskStatus.COMPLETED && task.dueDate && new Date(task.dueDate) < new Date()).length,
 
 			items: project?.tasks
 		};
 
+		// Return structured project details
 		return {
 			project: {
 				...project,
@@ -98,7 +99,6 @@ export const getProjectDetails = async (
 			comments,
 		};
 	} catch (error) {
-		console.log(error)
 
 		return {
 			success: false,

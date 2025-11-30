@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const NavBar = ({ id, email, name, image }: Props) => {
-	const {signOut} = useClerk();
+	const { signOut } = useClerk();
 
 	const handleLogOut = async () => {
 		await signOut();

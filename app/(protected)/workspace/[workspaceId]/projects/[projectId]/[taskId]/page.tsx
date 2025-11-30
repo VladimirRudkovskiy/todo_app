@@ -17,8 +17,10 @@ const TaskIdPage = async ({ params }: PageProps) => {
 
 	const { taskId, workspaceId, projectId } = await params;
 
+	// This returns task data that will be displayed on the page.
 	const { task } = await getTaskById(taskId, workspaceId, projectId);
 
+	// If no task is found with the given IDs, redirect to a 404 page.
 	if (!task) redirect("/not-found");
 
 	return (
@@ -26,10 +28,6 @@ const TaskIdPage = async ({ params }: PageProps) => {
 			<div className="flex-1">
 				<TaskDetails task={task as any} />
 			</div>
-
-			{/* <div className="w-full lg:w-[400px]">
-				<TaskComment taskId={taskId} comments={comments}/>
-			</div> */}
 		</div>
 	)
 }

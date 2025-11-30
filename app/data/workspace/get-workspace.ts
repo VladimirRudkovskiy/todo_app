@@ -4,7 +4,7 @@ import { userRequired } from "../user/is-user-authenticated"
 export const getWorkspaceById = async (workspaceId: string) => {
 	const { userId } = await userRequired();
 
-	const [isUserMember] = await([
+	const [isUserMember] = await ([
 		db.workspaceMember.findUnique({
 			where: {
 				userId_workspaceId: {
@@ -15,7 +15,7 @@ export const getWorkspaceById = async (workspaceId: string) => {
 		}),
 	]);
 
-	if(!isUserMember) {
+	if (!isUserMember) {
 		throw new Error("Unauthorized")
 	}
 
@@ -26,5 +26,5 @@ export const getWorkspaceById = async (workspaceId: string) => {
 		},
 	});
 
-	return {data:workspace};
+	return { data: workspace };
 }

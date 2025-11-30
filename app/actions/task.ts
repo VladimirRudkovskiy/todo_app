@@ -14,8 +14,10 @@ export const createNewTask = async (
 ) => {
 	const { userId } = await userRequired();
 
+	// Validate the incoming task data against schema to ensure correct types.
 	const validatedData = taskFormSchema.parse(data);
 
+	// Check if the user is a member of the workspace before allowing task creation.
 	const isUserMember = await db.workspaceMember.findUnique({
 		where: {
 			userId_workspaceId: {
@@ -29,12 +31,15 @@ export const createNewTask = async (
 		throw new Error("Unauthorized")
 	}
 
+	// Fetch existing tasks in the project to calculate the new task's position.
 	const tasks = await db.task.findMany({
 		where: { projectId }
 	});
 
+	// Find the last task in the same status and sort by position descending.
 	const lastTask = tasks?.filter(task => task.status === data.status).sort((a, b) => b.position = a.position)[0];
 
+	// Determine position for the new task.
 	const position = lastTask ? lastTask.position + 1000 : 1000;
 
 	const task = await db.task.create({
@@ -86,6 +91,7 @@ export const updateTask = async (
 ) => {
 	const { userId } = await userRequired();
 
+	// Validate incoming task data.
 	const validatedData = taskFormSchema.parse(data);
 
 	const isUserMember = await db.workspaceMember.findUnique({
@@ -101,6 +107,7 @@ export const updateTask = async (
 		throw new Error("Unauthorized")
 	}
 
+	// Check if the user has access to the project itself.
 	const projectAccess = await db.projectAccess.findUnique({
 		where: {
 			workspaceMemberId_projectId: {
@@ -114,6 +121,7 @@ export const updateTask = async (
 		throw new Error("You do not have access to this project")
 	}
 
+	// Update the task's details in the database.
 	const task = await db.task.update({
 		where: { id: taskId },
 		data: {
